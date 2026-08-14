@@ -19,9 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: bufbuild/buf-setup-action@v1
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+      - run: cargo install protoc-gen-prost protoc-gen-tonic
+      - run: buf generate
       - run: cargo fmt --manifest-path bs-ran/Cargo.toml --all -- --check
       - run: cargo clippy --manifest-path bs-ran/Cargo.toml --workspace -- -D warnings
       - run: cargo build --manifest-path bs-ran/Cargo.toml --workspace
