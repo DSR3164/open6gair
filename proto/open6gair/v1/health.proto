@@ -1,0 +1,27 @@
+// /proto/open6gair/v1/health.proto
+syntax = "proto3";
+
+package open6gair.v1;
+
+option go_package = "github.com/DSR3164/open6gair/core-services/gen/go/open6gair/v1;open6gairv1";
+
+// HealthService is a minimal liveness contract, used as the first
+// end-to-end wire between core-services (Go control plane) and
+// bs-ran (Rust base station process) to validate the codegen pipeline.
+service HealthService {
+  rpc Check(HealthServiceCheckRequest) returns (HealthServiceCheckResponse);
+}
+
+message HealthServiceCheckRequest {
+  string component_id = 1;
+}
+
+message HealthServiceCheckResponse {
+  Status status = 1;
+
+  enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_SERVING = 1;
+    STATUS_NOT_SERVING = 2;
+  }
+}

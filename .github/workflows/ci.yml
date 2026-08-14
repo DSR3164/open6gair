@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  proto-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bufbuild/buf-setup-action@v1
+      - run: buf lint
+      - run: buf breaking --against 'https://github.com/${{ github.repository }}.git#branch=main'
+        if: github.event_name == 'pull_request'
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --manifest-path bs-ran/Cargo.toml --all -- --check
+      - run: cargo clippy --manifest-path bs-ran/Cargo.toml --workspace -- -D warnings
+      - run: cargo build --manifest-path bs-ran/Cargo.toml --workspace
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.0"
+          cache-dependency-path: core-services/go.sum
+      - run: go build ./...
+        working-directory: core-services
+      - run: go vet ./...
+        working-directory: core-services

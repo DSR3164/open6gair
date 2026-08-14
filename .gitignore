@@ -1,0 +1,23 @@
+# Rust
+/bs-ran/target/
+**/*.rs.bk
+# Cargo.lock is committed intentionally (bs-ran is an application workspace)
+
+# Go
+/core-services/bin/
+/core-services/*.exe
+/core-services/vendor/
+
+# Generated protobuf/gRPC code — regenerate via `buf generate`, not committed
+**/gen/go/
+bs-ran/crates/proto-gen/src/open6gair/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Env
+.env
+.env.local

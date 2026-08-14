@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+    ".",
+    "crates/*",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/DSR3164/open6gair"
+
+[workspace.dependencies]
+tonic = "0.14"
+tonic-prost = "0.14"
+prost = "0.14"
+tokio = { version = "1", features = ["full"] }
+
+[package]
+name = "bs-ran"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+proto-gen = { path = "crates/proto-gen" }
+tonic = { workspace = true }
+tokio = { workspace = true }

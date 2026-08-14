@@ -1,0 +1,18 @@
+version: v2
+plugins:
+  # Go: message types + gRPC service stubs
+  - local: protoc-gen-go
+    out: core-services/gen/go
+    opt: paths=source_relative
+  - local: protoc-gen-go-grpc
+    out: core-services/gen/go
+    opt: paths=source_relative
+
+  # Rust: prost (messages) + tonic (gRPC service stubs).
+  # Each plugin runs independently against the .proto descriptors; the
+  # generated open6gair.v1.rs (prost) includes open6gair.v1.tonic.rs
+  # (tonic) internally, so plugin order here doesn't affect the build.
+  - local: protoc-gen-prost
+    out: bs-ran/crates/proto-gen/src
+  - local: protoc-gen-tonic
+    out: bs-ran/crates/proto-gen/src
