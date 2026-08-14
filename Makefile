@@ -1,4 +1,4 @@
-.PHONY: all proto lint proto-breaking fmt rust-build go-build
+.PHONY: all proto lint proto-breaking fmt rust-build go-build run-rust run-go
 
 all: proto fmt rust-build go-build
 
@@ -20,3 +20,9 @@ rust-build:
 
 go-build:
 	cd core-services && go build ./...
+
+run-rust:
+	cd bs-ran && cargo run
+
+run-go:
+	cd core-services && go run ./cmd/core
